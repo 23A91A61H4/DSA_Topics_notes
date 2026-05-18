@@ -1,0 +1,84 @@
+Two Pointers
+  Two Pointers is a technique where two variables (pointers/indexes) are used to traverse a data structure (mostly arrays or strings).
+  Instead of using nested loops, we move pointers smartly to reduce time complexity.
+
+Use of two pointers
+  Reduces unnecessary comparisons
+  Optimizes brute force solutions
+  Mostly converts O(n²) → O(n)
+  Very common in coding interviews and LeetCode
+
+Main Idea
+  We use:
+    Left Pointer
+    Right Pointer
+  and move them based on conditions.
+
+Types of Two Pointer 
+  There are 3 types of two pinters in it:
+  Approach	            Description
+  Opposite Direction	  One pointer at start, one at end
+  Same Direction	      Both move forward
+  Fast & Slow Pointer  	One moves faster than other
+
+1.Opposite Direction
+  Used mostly in:
+    Sorted arrays
+    Pair sum problems
+    Palindrome checking
+Example
+  Find if two numbers sum to target.
+  arr = [1,2,3,4,6]
+  target = 6
+Approach
+  left = start
+  right = end
+conditions:
+  sum < target → move left
+  sum > target → move right
+  sum == target → found
+Time Complexity
+  Operation	  Complexity
+  Traversal    	O(n)
+  Space        	O(1)
+
+2. Same Direction Two Pointers
+Both pointers move forward.
+Used in:
+  Removing duplicates
+  Partitioning arrays
+  Moving zeros
+Example: 
+  Remove Duplicates
+  arr = [1,1,2,2,3]
+   if arr[i] != arr[j]:
+    i += 1
+    arr[i] = arr[j]
+Working
+i stores unique elements
+j scans array
+Time Complexity
+Complexity  	Value
+Time	        O(n)
+Space	        O(1)
+
+3. Fast and Slow Pointer
+One pointer moves faster than the other.
+Used in:
+  Linked Lists
+  Cycle Detection
+  Middle Element Finding
+Time Complexity
+Complexity	Value
+Time         O(n)
+Space	       O(1)
+
+
+Advantages
+  Very efficient
+  Reduces nested loops
+  Saves memory
+  Easy once patterns understood
+Disadvantages
+  Sometimes difficult to identify
+  Mostly useful only in linear structures
