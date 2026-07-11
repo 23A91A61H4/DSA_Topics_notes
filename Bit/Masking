@@ -1,0 +1,331 @@
+🔹 BIT MASKING (MOST IMPORTANT NEXT TOPIC) 
+                                       
+Bit masking means using bits to control / check values.
+
+We’ll follow this exact format again:
+
+What → Example → Where to use
+ 
+1️⃣ TURN ON (SET) A BIT
+👉 What it means
+
+Make a particular bit 1, no matter what.
+
+Example
+
+Turn ON bit at position 2 (0-based index)
+
+n = 0
+mask = 1 << 2
+n = n | mask
+print(n)
+
+
+Binary:
+
+1 << 2 = 100
+0 | 100 = 100
+
+
+
+Result:
+
+4
+
+Where to use?
+
+Enable features
+
+Permissions
+
+Flags
+
+2️⃣ CHECK IF A BIT IS ON
+👉 What it means
+
+Check whether a particular bit is 1 or 0.
+
+Example
+
+Check bit at position 2
+
+n = 4      # 100
+mask = 1 << 2
+
+if n & mask:
+    print("Bit is ON")
+else:
+    print("Bit is OFF")
+
+Where to use?
+
+Permission checking
+
+Feature enabled or not
+
+3️⃣ TURN OFF (CLEAR) A BIT
+👉 What it means
+
+Make a particular bit 0.
+
+Example
+
+Turn OFF bit at position 2
+
+n = 4      # 100
+mask = ~(1 << 2)
+n = n & mask
+print(n)
+
+
+Binary:
+
+~100 = 011
+100 & 011 = 000
+
+
+Result:
+
+0
+
+Where to use?
+
+Disable features
+
+Remove permissions
+
+4️⃣ TOGGLE A BIT
+👉 What it means
+
+If bit is 1 → make 0
+If bit is 0 → make 1
+
+Example
+
+Toggle bit at position 2
+
+n = 0
+n = n ^ (1 << 2)
+print(n)   # 4
+
+n = n ^ (1 << 2)
+print(n)   # 0
+
+Where to use?
+
+Switch ON/OFF
+
+Toggle settings
+
+🔥 BIT MANIPULATION QUICK REVISION (WHEN & WHERE TO USE)
+1️⃣ AND (&) — CHECK / REMOVE
+✅ WHEN to use &
+
+When you want to CHECK a bit
+
+When you want to REMOVE a bit
+
+When you want to filter bits
+
+📌 WHERE to use
+n & 1
+
+
+👉 Check odd / even
+
+n & (1 << i)
+
+
+👉 Check ith bit is 1 or not
+
+n & (n - 1)
+
+
+👉 Remove rightmost set bit
+
+n & ~(1 << i)
+
+
+👉 Clear ith bit
+
+2️⃣ OR (|) — SET
+✅ WHEN to use |
+
+When you want to SET a bit to 1
+
+When you want to keep existing 1s
+
+📌 WHERE to use
+n | 1
+
+
+👉 Set last bit
+
+n | (1 << i)
+
+
+👉 Set ith bit
+
+n | (n + 1)
+
+
+👉 Set rightmost unset (0) bit
+
+3️⃣ XOR (^) — TOGGLE / UNIQUE
+✅ WHEN to use ^
+
+When you want to TOGGLE a bit
+
+When duplicates exist and only one is unique
+
+📌 WHERE to use
+n ^ 1
+
+
+👉 Toggle last bit
+
+n ^ (1 << i)
+
+
+👉 Toggle ith bit
+
+a ^ a = 0
+a ^ 0 = a
+
+
+👉 Used in Single Number problems
+
+4️⃣ LEFT SHIFT (<<) — MOVE LEFT / MULTIPLY
+✅ WHEN to use <<
+
+When you want to create a bit mask
+
+When you want to multiply by 2
+
+📌 WHERE to use
+1 << i
+
+
+👉 Mask for ith bit
+
+n << 1
+
+
+👉 Multiply n by 2
+
+5️⃣ RIGHT SHIFT (>>) — MOVE RIGHT / DIVIDE
+✅ WHEN to use >>
+
+When you want to divide by 2
+
+When you want to check bits one by one
+
+📌 WHERE to use
+n >> 1
+
+
+👉 Divide by 2
+
+(n >> i) & 1
+
+
+👉 Check ith bit
+
+🧠 MOST IMPORTANT INTERVIEW FORMULAS ⭐
+n & 1                  # odd / even
+n & (n - 1)            # remove rightmost set bit
+n & -n                 # get rightmost set bit
+n | (n + 1)            # set rightmost unset bit
+n & (n - 1) == 0       # power of 2
+
+🟢 AND (&) — CHECK / REMOVE
+1️⃣ Check Odd or Even
+
+Concept: n & 1
+
+GFG:
+https://www.geeksforgeeks.org/program-to-check-even-or-odd/
+
+2️⃣ Check ith Bit is Set or Not
+
+Concept: n & (1 << i)
+
+GFG:
+https://www.geeksforgeeks.org/check-whether-k-th-bit-set-not/
+
+3️⃣ Remove Rightmost Set Bit
+
+Concept: n & (n - 1)
+
+GFG:
+https://www.geeksforgeeks.org/program-to-turn-off-the-rightmost-set-bit/
+
+4️⃣ Check Power of Two
+
+Concept: n & (n - 1) == 0
+
+LeetCode 231 – Power of Two:
+https://leetcode.com/problems/power-of-two/
+
+GFG:
+https://www.geeksforgeeks.org/program-to-find-whether-a-given-number-is-power-of-2/
+
+5️⃣ Count Set Bits
+
+Concept: repeated n & (n - 1)
+
+LeetCode 191 – Number of 1 Bits:
+https://leetcode.com/problems/number-of-1-bits/
+
+GFG:
+https://www.geeksforgeeks.org/count-set-bits-in-an-integer/
+
+6️⃣ Clear ith Bit
+
+Concept: n & ~(1 << i)
+
+GFG:
+https://www.geeksforgeeks.org/clear-kth-bit-number/
+
+🔵 OR (|) — SET
+7️⃣ Set ith Bit
+
+Concept: n | (1 << i)
+
+GFG:
+https://www.geeksforgeeks.org/set-kth-bit-number/
+
+8️⃣ Set Rightmost Unset Bit
+
+Concept: n | (n + 1)
+
+GFG:
+https://www.geeksforgeeks.org/set-the-rightmost-unset-bit/
+
+9️⃣ Set All Bits After MSB
+
+Concept: n | (n - 1)
+
+GFG:
+https://www.geeksforgeeks.org/set-all-the-bits-after-the-most-significant-bit/
+
+🎯 MUST-DO LeetCode Using AND / OR
+🔟 Single Number
+
+Concept: AND / XOR combo
+
+LeetCode 136 – Single Number:
+https://leetcode.com/problems/single-number/
+
+1️⃣1️⃣ Missing Number
+
+Concept: Bit logic
+
+LeetCode 268 – Missing Number:
+https://leetcode.com/problems/missing-number/
+
+🧠 INTERVIEW MEMORY LINE (VERY IMPORTANT)
+AND (&) → check / remove
+OR (|)  → set
+XOR (^) → toggle / unique
+SHIFT   → move bits
