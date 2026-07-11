@@ -1,0 +1,217 @@
+PREFIX SUM + HASHING Pattern
+
+Hashing (usually using a Map or unordered_map) is combined with prefix sums to solve problems like:
+
+Subarray with a given sum
+
+Number of subarrays with sum = K
+
+Longest subarray with sum = 0
+
+Key idea:
+
+Maintain a prefix sum while iterating through the array.
+
+Use a hash map to store the frequency or first occurrence of each prefix sum.
+
+Check if (current_prefix_sum - target_sum) exists in the map.
+
+🔑 Clues that a problem needs Prefix Sum + HashMap
+
+1. The question is about subarrays
+
+Not subsequences, not subsets — specifically continuous subarrays.
+
+Examples in statements:
+
+“Find the number of subarrays …”
+
+“Find the longest subarray …”
+
+“Check if a subarray exists …”
+
+
+2. The subarray condition involves sum
+
+Something like:
+
+Sum = target
+
+Sum divisible by k
+
+Sum modulo something
+
+Equal number of 0s and 1s (can be turned into sum = 0)
+
+
+3. You need counting or longest length
+
+##TRICK 
+🔑 Key Difference
+
+Target sum is given (560, 930) → use prefix - goal
+
+Target sum is not given, only divisibility (974) → use prefix % k
+
+##PROBLEM 
+974. Subarray Sums Divisible by K
+
+Difficulty: Medium
+Topics: Array, Hash Map, Prefix Sum
+
+Problem
+
+Given an integer array nums and an integer k, return the number of non-empty subarrays that have a sum divisible by k.
+
+A subarray is a contiguous part of an array.
+
+Example 1
+Input: nums = [4,5,0,-2,-3,1], k = 5
+Output: 7
+Explanation: There are 7 subarrays with a sum divisible by 5:
+
+If the problem asks:
+
+How many subarrays … → count → use hashmap with frequencies
+##CODE
+from collections import defaultdict
+from typing import List
+
+from collections import defaultdict
+
+def subarraySum(nums, k):
+    prefix_sum = 0
+    count = 0
+    prefix_map = defaultdict(int)
+    prefix_map[0] = 1   # base case: empty subarray
+
+    for num in nums:
+        prefix_sum += num
+        if (prefix_sum - k) in prefix_map:
+            count += prefix_map[prefix_sum - k]
+        prefix_map[prefix_sum] += 1
+    
+    return count
+
+##BIG DOUBT IN PREFIX SUM -- IS WE DO  (prefix_sum - k)  AND ADDING TO COUNT HOW IT IS WILL BE SUBARAY NOT SUBSEQUENCE 
+$$ DOUBT ANSWER === BELOW 
+Array: arr = [1, 2, 3, 4], K = 5
+
+We want subarrays whose sum = 5.
+
+Step 1: Keep a running total (prefix sum)
+Index	arr[i]	Running total (prefix_sum)
+0	     1	       1
+1	     2	       3 
+2	     3	       6 
+3	     4       	10
+Step 2: Check if there is a previous total so that the difference = K
+
+At each step, we do:
+
+current total - previous total = K → that’s our subarray sum.
+
+Step-by-step:
+
+Step 0: total = 1 → 1 - ? = 5 → no previous total matches → nothing
+
+Step 1: total = 3 → 3 - ? = 5 → no previous total matches → nothing
+
+Step 2: total = 6 → 6 - ? = 5 → ? = 1 → previous total 1 exists (at index 0)
+
+This means the numbers after index 0 up to current index 2 sum to 5 → [2, 3]
+
+Step 3: total = 10 → 10 - ? = 5 → ? = 5 → previous total 5 not found → nothing
+
+Step 3: Why it’s a subarray, not a subsequence
+
+The prefix sum always counts all numbers from the start.
+
+When we subtract a previous total, we are literally taking all numbers between that previous index + 1 and current index.
+
+We cannot skip numbers, so it’s always contiguous → a subarray.
+
+Think of it like a rope of numbers:
+
+[1, 2, 3, 4]
+ ^     ^
+start  end
+
+
+prefix_sum at end - prefix_sum at start → includes all numbers in between → you are grabbing a continuous piece of rope → subarray.
+
+Longest subarray … → length → use hashmap with indices
+
+## 🔹 930. Binary Subarrays With Sum
+Problem
+
+Given a binary array nums (only 0s and 1s) and an integer goal, return the number of subarrays with sum = goal.
+(Subarray = contiguous part of array)
+
+Example 1
+Input: nums = [1,0,1,0,1], goal = 2
+Output: 4
+Explanation: The 4 subarrays are:
+[1,0,1], [0,1,0,1], [1,0,1,0], [1,0,1]
+
+## CODE 
+class Solution:
+    def numSubarraysWithSum(self, nums: List[int], goal: int) -> int:
+        hash = defaultdict(int)
+        hash[0] = 1
+        pre = rem = count = 0
+        for i in range(len(nums)):
+            pre+=nums[i]
+            if pre - goal in hash:
+                count+=hash[pre-goal]
+            hash[pre]+=1
+        return count
+## MY DOUBTS IN ABOVE SUM 
+  ans += prefix_map[prefix_sum - goal] WE CAN WRITE THIS USING IF ALSO ANY HOW NO PROBLEM..  ans += prefix_map[prefix_sum - goal] WE WILL ADD IN ANS INSTANTLY 
+LETS ASSUME ANS IS 5 and pre - goal is again satisfied then ans is 5 + 5 i think that how it will increases beacause the new element added and add 5 new pairs beacause 
+all 5 have same remainder then we get 5 + 5 = 10
+
+
+## UPTO ABOVE SUM WE SEEN COUNTING THEN WE USE prefix_sum[0] = 1 BUT NOW WE ARE DOING prefix_sum[0] = -1 BECAUSE NOW WE ARE DEALING WITH TO FIND LENGTH LIKE LONGEST AND SHORTEST 
+## WHEN ASK ABOUT LONGEST THEN  WE  WRITE  INSIDE  ELSE  hash[rem] = i..IF WE WANT SHORTEST  WE DOESNOT WRITE IN ELSE  WE WRITE IN IF BELOW 
+1590. Make Sum Divisible by P
+Problem
+
+Given an array of positive integers nums, remove the smallest subarray (possibly empty) such that the sum of the remaining elements is divisible by p. It is not allowed to remove the whole array.
+
+Return the length of the smallest subarray that you need to remove, or -1 if it's impossible.
+
+A subarray is defined as a contiguous block of elements in the array.
+
+Examples
+
+Example 1:
+
+Input: nums = [3,1,4,2], p = 6
+Output: 1
+Explanation: Remove [4]. Remaining sum = 6, divisible by 6.
+
+## CODE 
+from collections import defaultdict
+from typing import List
+
+class Solution:
+    def minSubarray(self, nums: List[int], p: int) -> int:
+        total_mod = sum(nums) % p
+        if total_mod == 0:
+            return 0
+        
+        prefix_sum = 0
+        min_len = float('inf')
+        mod_index = {0: -1}
+        
+        for i, num in enumerate(nums):
+            prefix_sum += num
+            rem = prefix_sum % p
+            target = (rem - total_mod) % p
+            if target in mod_index:
+                min_len = min(min_len, i - mod_index[target])
+            mod_index[rem] = i
+        return min_len if min_len < len(nums) else -1
+
+## DOUBTS IN ABOVE SUM    target = (rem - total_mod) % p.. WE ARE DOING %p just to avoid negatives  
