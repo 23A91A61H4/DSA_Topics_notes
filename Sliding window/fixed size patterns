@@ -1,0 +1,163 @@
+✅ Patterns in Sliding Window
+
+Sliding Window problems generally follow these patterns:
+
+## 1. Fixed-Size Sliding Window
+
+Window size is fixed.
+
+Common problems: maximum sum of k-length subarray, average of subarrays, etc.
+
+Example: Find the maximum sum of any 3 consecutive elements in an array.
+
+2. When do we know it is fixed type?
+
+You know it’s a fixed-size sliding window if the problem explicitly or implicitly tells you the window size (k, n, etc.).
+
+Clues in the problem:
+
+“Find the maximum sum of k consecutive elements.”
+
+“Longest substring of size n with certain properties.”
+
+“Compute the average of every 5 elements in the array.”
+
+✅ Key point: The window size is given or constant.
+ ## PROBLEMS
+
+# 1876. Substrings of Size Three with Distinct Characters
+
+## Problem
+
+A string is **good** if there are no repeated characters.  
+Given a string `s`, return the number of good substrings of **length 3** in `s`.  
+
+A substring is a contiguous sequence of characters in a string.  
+Each occurrence of a substring counts separately.
+
+### Example 1
+Input: `s = "xyzzaz"`  
+Output: `1`  
+Explanation: substrings of size 3: `"xyz"`, `"yzz"`, `"zza"`, `"zaz"`. Only `"xyz"` is good.
+
+### Example 2
+Input: `s = "aababcabc"`  
+Output: `4`  
+Explanation: `"abc"`, `"bca"`, `"cab"`, `"abc"` are good substrings.
+
+### Constraints
+- 1 <= s.length <= 100  
+- `s` consists of lowercase English letters
+
+## Solution
+## APPROACH 1 
+class Solution:
+    def countGoodSubstrings(self, s: str) -> int:
+        a = defaultdict(int)
+        c = 0
+        l = 0 
+        if len(s) < 3:
+            return 0
+        for r in range(0,3):
+            a[s[r]]+=1
+        if len(a) == 3:
+            c+=1
+        for r in range(3,len(s)):
+            a[s[l]]-=1
+            if a[s[l]] == 0:
+                del a[s[l]]
+            l+=1
+            a[s[r]]+=1
+            if len(a) == 3:
+                c+=1
+        return c
+## APPROACH 2 
+class Solution:
+    def countGoodSubstrings(self, s: str) -> int:
+        count = 0
+        for i in range(len(s) - 2):
+            if len({s[i], s[i+1], s[i+2]}) == 3:
+                count += 1
+        return count
+
+# 1343: Number of Sub-arrays of Size K and Average Greater than or Equal to Threshold
+
+**Problem Statement:**  
+Given an array of integers `arr` and two integers `k` and `threshold`, return the number of sub-arrays of size `k` whose average is greater than or equal to `threshold`.
+
+   Example 1:
+
+Input: arr = [2,2,2,2,5,5,5,8], k = 3, threshold = 4
+Output: 3
+Explanation: Sub-arrays [2,5,5],[5,5,5] and [5,5,8] have averages 4, 5 and 6 respectively. All other sub-arrays of size 3 have averages less than 4 (the threshold).
+##CODE
+
+    def numOfSubarrays(self, arr: List[int], k: int, threshold: int) -> int:
+        # Calculate the sum of the first window
+        window_sum = sum(arr[:k])
+        count = 0
+
+        if window_sum // k >= threshold:
+            count += 1
+
+        for i in range(k, len(arr)):
+            window_sum += arr[i] - arr[i - k]  # remove leftmost, add new rightmost
+            if window_sum // k >= threshold:
+                count += 1
+
+        return count
+
+if __name__ == "__main__":
+    sol = Solution()
+    print(sol.numOfSubarrays([2,2,2,2,5,5,5,8], 3, 4))  
+    print(sol.numOfSubarrays([11,13,17,23,29,31,7,5,2,3], 3, 5))  
+
+##"""
+209. Minimum Size Subarray Sum
+--------------------------------
+Given an array of positive integers nums and a positive integer target, 
+return the minimal length of a subarray whose sum is >= target.
+If there is no such subarray, return 0.
+
+Constraints:
+1 <= target <= 10^9
+1 <= nums.length <= 10^5
+1 <= nums[i] <= 10^4
+"""
+"""
+Examples:
+---------
+Input: target = 7, nums = [2,3,1,2,4,3]
+Output: 2
+Explanation: Subarray [4,3]
+
+"""
+Approach:
+---------
+1. Use Sliding Window (Two Pointers).
+2. Expand right pointer and keep adding nums[r] to total.
+3. Once total >= target, shrink from left side to minimize length.
+4. Track minimum length.
+5. If no valid subarray found, return 0.
+
+Time: O(n)
+Space: O(1)
+"""
+from typing import List
+
+class Solution:
+    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+        l = total = 0
+        res = float('inf')
+        
+        for r in range(len(nums)):
+            total += nums[r]
+            while total >= target:
+                res = min(res, r - l + 1)
+                total -= nums[l]
+                l += 1
+        
+        return 0 if res == float('inf') else res
+
+
+        
