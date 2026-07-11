@@ -1,0 +1,371 @@
+TIME COMPLEXITY
+WHAT IS TIME COMPLEXITY?
+ 
+Time complexity tells how the running time of an algorithm grows as the input size increases.
+It does not measure seconds, it measures number of operations.
+
+We write it using Big-O notation:
+
+O(1) → constant time
+
+O(n) → linear time
+
+O(n²) → quadratic time (we’ll see later)
+
+🟢 O(1) — CONSTANT TIME
+
+👉 Time does NOT depend on input size
+
+✅ Code (O(1))
+def get_first(arr):
+    return arr[0]
+
+🧠 Dry Run (O(1))
+
+Assume:
+
+arr = [10, 20, 30, 40]
+
+
+Step by step:
+
+Access arr[0]
+
+Return value
+
+✅ Only ONE operation
+
+Now try bigger input:
+
+arr = [1,2,3,4,5,6,7,8,9,10]
+
+
+Still:
+
+Access arr[0]
+
+Return value
+
+➡️ Still ONE operation
+
+🔥 Conclusion
+Input size (n)	Operations
+4	1
+10	1
+1,000,000	1
+
+✅ Time Complexity = O(1)
+Because operations do not increase with n.
+
+🟡 O(n) — LINEAR TIME
+
+👉 Time increases as input size increases
+
+✏️ Edited Code
+def print_all(arr):
+    for x in arr:
+        print(x)
+
+🧠 Dry Run (O(n))
+
+Assume:
+
+arr = [10, 20, 30, 40]
+
+
+Step by step:
+
+Print 10
+
+Print 20
+
+Print 30
+
+Print 40
+
+➡️ 4 operations
+
+Now bigger input:
+
+arr = [1,2,3,4,5,6,7,8]
+
+
+Steps:
+
+Print 1
+
+Print 2
+
+Print 3
+
+Print 4
+
+Print 5
+
+Print 6
+
+Print 7
+
+Print 8
+
+➡️ 8 operations
+
+🔥 Conclusion
+Input size (n)	Operations
+4	4
+8	8
+100	100
+
+✅ Time Complexity = O(n)
+Because operations grow linearly with n.
+
+🧩 ONE MORE CLEAR COMPARISON (SIDE BY SIDE)
+O(1)
+print(arr[0])
+
+
+Runs once
+
+Independent of n
+
+O(n)
+for x in arr:
+    print(x)
+
+
+Runs n times
+
+Depends on n
+
+🔴 O(n²) — QUADRATIC TIME
+
+👉 Time increases very fast because of nested loops
+
+✅ Base Code (O(1)) – start simple
+def print_first(arr):
+    print(arr[0])
+
+Dry Run
+
+Only one print
+
+No loop
+
+✅ O(1)
+
+✏️ Edit the SAME CODE → O(n)
+def print_all(arr):
+    for x in arr:
+        print(x)
+
+Dry Run (n = 3)
+print 1
+print 2
+print 3
+
+
+Operations = 3
+
+✅ O(n)
+
+✏️ EDIT AGAIN → O(n²)
+def print_pairs(arr):
+    for i in range(len(arr)):
+        for j in range(len(arr)):
+            print(arr[i], arr[j])
+
+🧠 Dry Run (O(n²))
+
+Assume:
+
+arr = [1, 2, 3]
+
+
+n = 3
+
+Step-by-step
+
+i = 0
+
+j = 0 → (1,1)
+
+j = 1 → (1,2)
+
+j = 2 → (1,3)
+
+i = 1
+
+j = 0 → (2,1)
+
+j = 1 → (2,2)
+
+j = 2 → (2,3)
+
+i = 2
+
+j = 0 → (3,1)
+
+j = 1 → (3,2)
+
+j = 2 → (3,3)
+
+🔢 Operation Count
+
+Outer loop → runs n times
+
+Inner loop → runs n times
+
+Total → n × n = n²
+
+n	Operations
+3	9
+5	25
+10	100
+
+✅ Time Complexity = O(n²)
+
+🧠 Easy Memory Line
+
+Loop inside loop = O(n²)
+
+🔵 O(log n) — LOGARITHMIC TIME
+
+👉 Each step cuts input into half
+
+✏️ Start with O(n) search
+def linear_search(arr, target):
+    for x in arr:
+        if x == target:
+            return True
+    return False
+
+Dry Run (n = 8)
+
+Worst case → check all 8 elements
+✅ O(n)
+
+✏️ EDIT → Binary Search (O(log n))
+
+⚠️ Works on sorted array
+
+def binary_search(arr, target):
+    low = 0
+    high = len(arr) - 1
+
+    while low <= high:
+        mid = (low + high) // 2
+
+        if arr[mid] == target:
+            return True
+        elif arr[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+
+    return False
+
+🧠 Dry Run (O(log n))
+
+Assume:
+
+arr = [1,2,3,4,5,6,7,8]
+target = 7
+
+Steps
+
+1️⃣ mid = 3 → arr[3] = 4
+→ target > 4 → ignore left half
+
+Remaining: [5,6,7,8]
+
+2️⃣ mid = 5 → arr[5] = 6
+→ target > 6 → ignore left half
+
+Remaining: [7,8]
+
+3️⃣ mid = 6 → arr[6] = 7
+✅ found
+
+🔢 Operation Count
+n	Steps
+8	3
+16	4
+32	5
+
+Each step → divide by 2
+
+✅ Time Complexity = O(log n)
+
+🧠 Easy Memory Line
+
+If input becomes half each time → O(log n)
+
+🟣 O(n log n) — LINEARITHMIC TIME
+🔹 Meaning (very simple English)
+
+You do log n work
+
+for each of n elements
+
+So:
+
+n times × log n work = O(n log n)
+
+✏️ FINAL EDIT → O(n log n)
+
+Now we combine O(n) + O(log n)
+
+def n_log_n(arr):
+    for x in arr:          # runs n times
+        n = len(arr)
+        while n > 1:       # runs log n times
+            n = n // 2
+
+🧠 Dry Run (O(n log n))
+
+Assume:
+
+arr = [1,2,3,4]
+n = 4
+
+Outer loop (n times)
+
+Runs 4 times
+
+Inner loop (log n times)
+
+For each outer iteration:
+
+4 → 2 → 1  (2 steps)
+
+🔢 Total operations
+Outer	Inner	Total
+4	2	8
+
+Formula:
+
+n × log n
+
+
+✅ Time Complexity = O(n log n)
+
+🔥 REAL-LIFE EXAMPLE (VERY IMPORTANT)
+🟢 Merge Sort → O(n log n)
+
+Why?
+
+Divide array into halves → log n
+
+Merge n elements at each level
+
+Total:
+
+n work at each level × log n levels
+= O(n log n)
+
+🧠 Quick intuition
+
+Loop (n)
+
+Inside it, divide by 2 (log n)
+👉 O(n log n)
