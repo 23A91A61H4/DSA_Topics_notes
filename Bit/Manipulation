@@ -1,0 +1,760 @@
+🔹 What is Bit Manipulation?  
+
+Bit manipulation means working with numbers in binary (0 and 1) using special operators.
+ 
+👉 Computer does NOT understand 10, 20, 50 
+👉 Computer understands only 0 and 1
+  
+So bit manipulation =    
+playing with 0s and 1s to solve problems faster 
+
+.zfill(32) in Python means:
+
+👉 Pad a string with leading zeros until its length becomes 32 characters.
+
+🔹 Example:
+
+binary = "101"
+
+print(binary.zfill(32))
+
+Output:
+
+00000000000000000000000000000101
+ 
+🧠 The 5 Core Bitwise Magic Tricks
+
+These 5 patterns solve ~90% of bit manipulation problems. 
+
+1️⃣ n & (n - 1) → Removes the Rightmost Set Bit
+💡 What it does:
+
+It removes the lowest (rightmost) 1 bit from n.
+ 
+Example:
+n = 12 → 1100
+n-1 = 11 → 1011
+----------------
+n & (n-1) = 1000
+
+
+The rightmost 1 disappeared.
+
+✅ Uses:
+
+✔ Check power of 2:
+
+if n > 0 and (n & (n - 1)) == 0:
+
+
+✔ Count set bits:
+
+count = 0
+while n:
+    n = n & (n - 1)
+    count += 1
+
+## SOME TIMES WE WILL USE 
+(n & (n-1)) ^ n
+🧠 Simple Understanding
+Step 1: Remove rightmost 1
+Step 2: Compare with original using XOR
+Step 3: You get only that removed bit
+
+✅ Example 2
+n = 12
+Binary = 1100
+
+n-1 = 1011
+
+n & (n-1)
+1100
+1011
+-----
+1000
+
+Now XOR:
+1000
+1100
+-----
+0100
+
+Result = 4
+Rightmost set bit of 12 = 4 ✅
+
+⚡ Important
+This is used in:
+
+ 
+Finding lowest set bit
+
+
+Binary Indexed Tree
+
+
+Bit manipulation problems
+
+
+
+If you want, I can also show why n & -n gives same result 👀
+That trick is even more powerful 🚀
+
+
+Time complexity = O(number of set bits)
+
+2️⃣ n & -n → Isolates the Rightmost Set Bit
+💡 What it does:
+
+It extracts only the lowest 1 bit.
+
+Example:
+n = 12 → 1100
+-n = two’s complement
+n & -n = 0100
+HOW IT CAME MEANS 1 1 0 0 
+       COMPLEMENT 0 0 1 1 
+          ADD 1   0 0 0 1 
+          FINAL   0 1 0 0 
+It gives only the lowest set bit.
+
+✅ Uses:
+
+✔ Find first set bit position
+✔ Used in Fenwick Tree (BIT)
+✔ Used in subset / mask problems
+
+They are very similar, but they do the opposite things. Think of them as two different tools in the same toolbox.
+
+n & -n is a Filter: It keeps ONLY the rightmost 1 and turns everything else to 0.
+
+n & (n - 1) is a Eraser: It keeps everything ELSE and turns ONLY the rightmost 1 to 0
+
+3️⃣ x ^ y → Finds Where Bits Differ
+💡 What it does:
+
+XOR gives 1 where bits are different.
+
+A	B	A ^ B
+0	0	0
+1	1	0
+0	1	1
+1	0	1
+✅ Uses:
+
+✔ Find single number:
+
+res = 0
+for num in nums:
+    res ^= num
+
+
+✔ Find two unique numbers
+✔ Check if two numbers differ at a bit
+✔ Prefix XOR problems
+
+4️⃣ 1 << i → Create a Mask
+💡 What it does:
+
+Creates a number with only ith bit set.
+
+Example:
+
+1 << 3  → 1000  (which is 8)
+
+✅ Uses:
+
+✔ Check if ith bit is set:
+
+if n & (1 << i):
+
+
+✔ Set ith bit:
+
+n |= (1 << i)
+
+
+✔ Toggle ith bit:
+
+n ^= (1 << i)
+
+
+✔ Clear ith bit:
+
+n &= ~(1 << i)
+
+5️⃣ Bonus Trick: Swap Without Temp
+a = a ^ b
+b = a ^ b
+a = a ^ b
+
+## IF WE WANT TO CHANGE 0  0 0 1 TO 1 1 1 0 JUST FLIPPING BITS LIKE 0 TO 1 OTR 1 TO 0
+JUST USE XOR 
+N ^ 1 
+Operation         Binary     Decimal
+--------------------------------------
+Original (n)       1010       10
+Mask               1111       15
+--------------------------------------
+Result (n ^ Mask)  0101        5
+
+
+(Not recommended in real code, but common interview trick.)
+🔹 What is a BIT?
+
+A bit is the smallest unit of data
+
+Bit → 0 or 1
+
+
+Examples:
+
+5 in binary = 101
+8 in binary = 1000
+
+🔹 Why learn Bit Manipulation?
+
+Because:
+
+Faster solutions 🚀
+
+Used in LeetCode, HackerRank, exams
+
+Used in DSA, OS, networking
+
+🔹 Binary Numbers (VERY IMPORTANT)
+Decimal	Binary
+1	1
+2	10
+3	11
+4	100
+5	101
+6	110
+7	111
+8	1000
+
+🔑 STEP-1: Ask THIS question to yourself
+
+Am I touching individual bits (0 / 1)?
+
+If ❌ NO → normal math / logic
+
+If ✅ YES → BIT MANIPULATION
+
+In your code:
+(t >> i) & 1
+(1 << i)
+t | (1 << i)
+
+
+You are checking, shifting, setting individual bits
+👉 So BIT MANIPULATION ✔
+
+🔑 STEP-2: Ask THIS second question
+
+Am I creating a pattern like 0001, 0010, 0100 to target one bit?
+
+If YES → BIT MASKING
+
+In your code:
+(1 << i)
+
+
+Examples:
+
+i = 0 → 0001
+i = 1 → 0010
+i = 2 → 0100
+
+
+This pattern is called a MASK because:
+
+it targets one bit
+
+hides others
+
+👉 So BIT MASKING ✔
+
+🔍 How to IDENTIFY in exams / interviews
+See these operators? 🚨
+<<   >>   &   |   ^
+
+
+👉 Immediately think:
+
+BIT MANIPULATION
+
+See this pattern? 🚨
+1 << i
+n & (1 << i)
+n | (1 << i)
+
+
+👉 Immediately think:
+
+BIT MASKING
+
+🧠 Very simple real-life analogy
+Bit manipulation = working with switches
+[1][0][1][0]
+
+
+You are turning individual switches ON/OFF
+
+Bit masking = using tape to touch only one switch
+Mask → 0001
+
+✅ One-line exam answer (remember this)
+
+When a problem uses bitwise operators to access or modify individual bits, it is bit manipulation.
+If it uses patterns like 1 << i to target a specific bit, it is bit masking.
+
+👉 Every number = sum of powers of 2
+
+Example:
+
+5 = 4 + 1
+  = 100 + 001
+  = 101
+
+🔹 Bitwise Operators (MAIN THING)
+1️⃣ AND (&)
+
+👉 Both bits must be 1
+
+1 & 1 = 1
+1 & 0 = 0
+0 & 0 = 0
+
+
+Example:
+
+5 & 3
+5 = 101
+3 = 011
+---------
+    001 = 1
+
+##IT IS USED TO CHECK EVEN OR ODD 
+3️⃣ Example (VERY CLEAR)
+Example 1: EVEN number
+6 & 1
+
+
+Binary:
+
+6 = 110
+1 = 001
+
+
+AND:
+ 
+110
+001
+---
+000  → 0
+
+
+✅ Result = 0 → EVEN
+
+n = 7
+
+if n & 1:
+    print("Odd")
+else:
+    print("Even")
+
+
+2️⃣ OR (|)
+
+👉 If any one is 1, result is 1
+
+1 | 0 = 1
+0 | 0 = 0
+
+
+Example:
+
+5 | 3
+101
+011
+---
+111 = 7
+
+##WHEN IT IS USED 
+USED TO CHECK AT LEAST THERE IS 1 
+✅ Use Case 1: TURN ON A BIT (MOST IMPORTANT)
+
+OR is used to set / turn ON a bit.
+
+Example:
+
+x = 4      # 100
+x = x | 1  # turn ON last bit
+
+
+Binary:
+
+100 | 001 = 101
+
+
+Result:
+
+5
+
+
+👉 Used in bit masking
+3️⃣ XOR (^) ⭐ IMPORTANT
+
+👉 Same → 0
+👉 Different → 1
+
+1 ^ 1 = 0
+1 ^ 0 = 1
+
+
+Example:
+
+5 ^ 3
+101
+011
+---
+110 = 6 
+
+2️⃣ Important Properties (VERY IMPORTANT ⭐)
+a ^ a = 0        → same number cancels
+a ^ 0 = a        → XOR with 0 gives same number
+a ^ b ^ a = b    → order does not matter
+
+3️⃣ Why XOR Removes Duplicates?
+
+Duplicate numbers appear twice
+
+XOR of same numbers becomes 0
+
+So duplicates cancel each other
+
+Only the single number remains
+
+Example:
+
+[2, 3, 2]
+→ (2 ^ 2) ^ 3
+→ 0 ^ 3
+→ 3
+
+##WHEN IT IS NOT USED 
+IF THERE ARE MORE THAN ONE SINGLE ELEMENT IN THE ARRAY COR IS NOT USE FULL
+
+5️⃣ Python Code (Exam Ready)
+ans = 0
+for x in nums:
+    ans ^= x
+print(ans)
+
+🔹 SHIFT OPERATORS — SHORT NOTES
+
+There are 2 types:
+1️⃣ Left Shift <<
+2️⃣ Right Shift >>
+
+1️⃣ LEFT SHIFT (<<)
+👉 What it does
+
+Shifts bits to the LEFT
+
+Adds 0 at the right end
+
+Multiplies the number by 2
+
+🔹 Rule (IMPORTANT ⭐)
+n << k = n × (2^k)
+
+🔹 Example 1
+5 << 1
+
+here  n = 5 , k= 1 
+2 * 1 = 2 
+now 5 * 2 = 10
+
+Binary:
+
+5 = 101
+→ 1010
+
+
+Decimal:
+
+1010 = 10
+
+
+✅ Result:
+
+5 << 1 = 10
+
+🔹 Example 2
+6 << 2
+
+
+Binary:
+
+6 = 110
+→ 11000
+
+
+Decimal:
+
+11000 = 24
+
+
+✅ Result:
+
+6 << 2 = 24
+
+🔹 When to use <<
+
+Fast multiplication
+
+n * 2 → n << 1
+
+n * 4 → n << 2
+
+🔹 WHERE TO USE LEFT SHIFT (<<)
+1️⃣ When multiplying by power of 2
+
+Use left shift when multiplication is:
+
+×2, ×4, ×8, ×16, ...
+
+Example:
+n = 5
+n << 1   # 5 × 2 = 10
+n << 2   # 5 × 4 = 20
+n << 3   # 5 × 8 = 40
+
+
+👉 Used when * is not allowed.
+
+## DOUBT IN LEFT SHIFT MEAN WHILE THIS IS ALSO DOUBT FOR RIGHT SHIFT THAT IS 
+LETS SUPPOSE N = 6 
+IF I DO N >> 1 IT WILL WORK IN THE SAME WAY I DONE SOME THING DIFFERENT THAT 
+BINARY OF 6  I DONE BIN(6) [2:]IS '1 1 0' I DONE '1 1 0' >> 1 THEN IT WILL NOT WORK BOTH ARE SAME  EVEN IF WE DO LIKE 6 ITS TREATES AS BINARY BUT WE CANT INITIALISE BINARY DIRECTLY  
+BECAUSE THESE BIT WISE OPERATORS >> , << WORKS ONLY WITH INTEGERS NOT LIKE THES STRINGS('110') BUT 110 IT WILL WORK  BEACUSE IT IS INTEGET 
+Case 1️⃣ '110' >> 1 ❌
+'110' >> 1
+
+IF WE ARE HAVING LIKE '110' THEN WE NEED TO CONVERT INTO INT THEN  
+s = '1100'
+n = int(s, 2)
+print(n)
+
+OUTPUT = 12
+
+
+❌ Will NOT work
+s = 1100 
+n = int(s,2)
+print(n) 
+Reason:
+
+'110' → string
+
+Bitwise operators (>>, <<, &, |, ^)
+👉 work ONLY on integers
+
+Python error:
+
+TypeError: unsupported operand type(s) for >>: 'str' and 'int'
+
+Case 2️⃣ 110 >> 1 ✅ (BUT careful!)
+110 >> 1
+
+
+✔️ This WILL work
+
+Output:
+
+55
+
+Why 55?
+
+110 here is a decimal number, NOT binary
+
+Decimal 110 in binary is:
+
+110 (decimal) = 1101110 (binary)
+
+
+Right shift by 1:
+
+1101110  →  110111
+
+
+110111 (binary) = 55
+
+👉 Python does NOT think 110 is binary
+👉 Python thinks 110 is decimal
+
+🔹 RIGHT SHIFT (>>)
+1️⃣ What is Right Shift?
+
+👉 Moves binary bits to the RIGHT
+👉 Removes the last bit
+👉 Divides the number by 2 (integer division)
+
+2️⃣ Example (VERY CLEAR)
+Example 1
+10 >> 1
+
+
+Binary:
+
+10 = 1010
+
+
+Right shift by 1:
+
+1010 → 101
+
+
+Decimal:
+
+101 = 5
+
+
+✅ Result:
+
+10 >> 1 = 5
+
+3️⃣ Where to Use Right Shift?
+✅ Use Case 1: Divide by Power of 2
+
+When question says:
+
+Divide without using /
+
+n >> 1  →  n ÷ 2
+n >> 2  →  n ÷ 4
+n >> 3  →  n ÷ 8
+
+##SMLL TRICK THERE IS NUMBER 
+LIKE N = 11 WE WANT LIKE IN BINARY FORMAT 
+then use (bin(n)[2:])
+// here it works only for 26 bits 
+
+## FOR 32 BITS 
+    r = bin(n)[2:].zfill(32) 
+
+## n & 1: This looks only at the very last bit. If the last bit is 1, 
+the result is 1. If it's 0, the result is 0.
+
+## PROBLEM 
+Set the rightmost bit
+
+
+
+3
+
+Problem Statement: Given a positive integer n, set the rightmost unset (0) bit of its binary representation to 1 and return the resulting integer.
+If all bits are already set, return the number as it is.
+
+Examples
+Example 1:
+Input:
+ n = 10 (binary: 1010)  
+Output:
+ 11 (binary: 1011)  
+Explanation:
+  The rightmost unset bit is the least significant bit (LSB). Setting it to 1 gives 1011 = 11.
+
+##CODE 
+✅ Code Being Dry-Run
+n = 10
+bi = bin(n)[2:]
+t = n
+le = len(bi)
+
+for i in range(le):
+    if (t >> i) & 1 == 0:
+        t = t | (1 << i)
+        break
+
+print(t)
+
+MY DOUBT 
+SEE 
+
+Code
+Testcase
+Testcase
+Test Result
+260. Single Number III
+Medium
+Topics
+premium lock icon
+Companies
+Given an integer array nums, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once
+. You can return the answer in any order.
+
+You must write an algorithm that runs in linear runtime complexity and uses only constant extra space.
+
+Example 1:
+
+Input: nums = [1,2,1,3,2,5]
+Output: [3,5]
+Explanation:  [5, 3] is also a valid answer.
+Example 2:
+
+Input: nums = [-1,0]
+Output: [-1,0]
+Example 3:
+
+Input: nums = [0,1]
+Output: [1,0]
+ 
+
+Constraints:
+
+2 <= nums.length <= 3 * 104
+-231 <= nums[i] <= 231 - 1
+Each integer in nums will appear twice, only two integers will appear once.
+ 
+You said:
+
+Many bit positions may be different between the two unique numbers.
+But we are taking only ONE bit.
+Using that one bit, we split into two groups.
+One unique number goes to one group.
+The other unique number goes to another group.
+Remaining duplicates cancel.
+Finally two numbers remain.
+That’s it. Right?
+
+##code 
+from typing import List
+
+class Solution:
+    def singleNumber(self, nums: List[int]) -> List[int]:
+        xor = 0
+        
+        # Step 1: XOR all numbers
+        for n in nums:
+            xor ^= n
+        
+        # Step 2: Get rightmost set bit
+        diff = xor & -xor
+        
+        a = 0
+        b = 0
+        
+        # Step 3: Divide into two groups
+        for n in nums:
+            if n & diff:
+                a ^= n
+            else:
+                b ^= n
+        
+        return [a, b]
+
+
+
+
